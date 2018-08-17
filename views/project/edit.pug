@@ -1,0 +1,104 @@
+extends ../layout
+
+block extrascripts
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js", integrity="sha256-tQ3x4V2JW+L0ew/P3v2xzL46XDjEWUExFkCDY0Rflqc=", crossorigin="anonymous")
+
+block extrastyles
+  link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css", integrity="sha256-uKEg9s9/RiqVVOIWQ8vq0IIqdJTdnxDMok9XhiqnApU=", crossorigin="anonymous")
+
+block content
+  .page-header
+    h1 Admin Panel
+
+  form.form-horizontal(action='/project/edit', method='POST')
+    input(type='hidden', name='_csrf', value=_csrf)
+    input(type='hidden', name='id', value=project._id)
+    .form-group
+      label.col-sm-3.control-label(for='name') Team/Project Name
+      .col-sm-7
+        input.form-control(type='text', required, maxlength="50",  name='name', id='name', value=(project ? project.name : ""))
+
+    .form-group
+      label.col-sm-3.control-label(for='description') Description
+      .col-sm-7
+        textarea.form-control(id='description', required, maxlength="255", name='description') #{project ? project.description : ""}
+
+
+    .form-group
+      label.col-sm-3.control-label(for='skills') Skills Needed
+      .col-sm-7
+        input.form-control(type='text', name='skills', id='skills', data-role='tagsinput', value=project ? project.recruiting.skills.join() : "")
+
+    .form-group
+      label.col-sm-3.control-label(for='interests') Tags
+        p Separate each tag with a comma or hit Enter.
+      .col-sm-7
+        input.form-control(type='text', name='interests', id='interests', data-role='tagsinput', value=project ? project.recruiting.interests.join() : "")
+
+    //.form-group
+      label.col-sm-3.control-label(for='image') Image
+        p (Optional)
+      .col-sm-7
+        input.form-control(type='file', name='image', id='image')
+
+    .form-group
+      label.col-sm-3.control-label(for='recruit') Looking for MESHERS?
+      .col-sm-7
+        //input.form-control.projects-form-num(type='number', required, name='needed', id='needed', min='0', max='3', value=project ? project.recruiting.needed : "")
+        if project.open
+          label.project-status(for='recruit') Yes
+            input.project-status(type='radio', required, name='recruit', id='recruit', value= "yes", checked)
+          label.project-status(for='recruit') No
+            input.project-status(type='radio', required, name='recruit', id='recruit', value= "no")
+
+        if !project.open
+          label.project-status(for='recruit') Yes
+            input.project-status(type='radio', required, name='recruit', id='recruit', value= "yes")
+          label.project-status(for='recruit') No
+            input.project-status(type='radio', required, name='recruit', id='recruit', value= "no", checked)
+
+    .form-group
+      .col-sm-offset-3.col-sm-4
+        button.btn.btn.btn-primary(type='submit')
+          i.fa.fa-pencil
+          | Update Project
+  
+  h2.admin-head Applying Meshers
+  
+  if applying.length
+    .row
+      .col-xs-10.col-xs-offset-1.col-sm-12.col-md-8.col-md-offset-2.col-lg-8.col-lg-offset-2
+        .row
+            for user in applying
+              .apply-user.col-xs-10.col-xs-offset-1.col-sm-12.col-md-6.col-md-offset-3.col-lg-6.col-lg-offset-3
+                //a.edit-apply(href='/viewprofile/'+user._id)
+                  img.apply(src=user.profile.picture)
+                a(href='/viewprofile/'+user._id)
+                  p.edit-apply-name #{user.profile.name}
+                form.apply(action='/project/confirm', method='POST')
+                  input(type='hidden', name='_csrf', value=_csrf)
+                  input(type='hidden', name='pid', value=project._id)
+                  input(type='hidden', name='uid', value=user._id)
+                  label.edit-apply Approve
+                    input.edit-apply(type='radio' name='confirm' value='approve' checked)
+                  label.edit-apply Decline
+                    input.edit-apply(type='radio' name='confirm' value='decline')
+                  button.edit-apply(type='submit')
+                    | Confirm
+                p(hidden) #{user._id}
+  else
+    p.apply No MESHERS
+
+  .page-header
+    h3.admin-head Delete Project
+
+  form.form-horizontal(onsubmit="return confirm('Are you sure you want to permanently delete this project?');", action='/project/delete', method='POST')
+    .form-group
+      p.col-sm-offset-3.col-sm-4 This action is irreversible.
+      input(type='hidden', name='_csrf', value=_csrf)
+      input(type='hidden', name='pid', value=project._id)
+
+      .col-sm-offset-3.col-sm-4
+        button.btn.btn-danger(type='submit')
+          i.fa.fa-trash
+          | Delete Project

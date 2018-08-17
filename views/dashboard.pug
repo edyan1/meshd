@@ -1,0 +1,99 @@
+extends layout
+
+block extrascripts
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js", integrity="sha256-tQ3x4V2JW+L0ew/P3v2xzL46XDjEWUExFkCDY0Rflqc=", crossorigin="anonymous")
+  script(src="../js/matchHeight.js")
+
+  script.
+    $(function() {
+      $('.match-height-title').matchHeight();
+      $('.match-height-name').matchHeight();
+      $('.match-height-pic').matchHeight();
+    });
+
+block extrastyles
+  link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css", integrity="sha256-uKEg9s9/RiqVVOIWQ8vq0IIqdJTdnxDMok9XhiqnApU=", crossorigin="anonymous")
+
+block content
+  .page-header
+    h1 Dashboard
+
+  //Check if any users are applying
+  - var x = 0
+    for project in myProjectsArray
+      if project.applying.length && project.admin == user.id
+        - x++
+  //If users have applied, display NOTIFICAITONS div
+  if x != 0 || user.messages.length
+    .row
+      .apply-container.col-xs-10.col-xs-offset-1.col-sm-12.col-md-8.col-md-offset-2.col-lg-8.col-lg-offset-2.apply-display
+        //If Applications
+        if x != 0
+          h2.apply Applications
+          //Display all Applications
+          for project in myProjectsArray
+            .row
+              if project.applying.length && project.admin == user.id
+                a.apply-display(href='/projectedit/'+project._id)
+                  p.col-xs-10.col-xs-offset-1.col-sm-12.col-md-10.col-md-offset-1.col-lg-8.col-lg-offset-2.apply-display MESHER(s) waiting for approval in 
+                    span.make-primary #{project.name}
+        //If Invitations
+        if user.messages.length
+          h2.apply Invitations
+          .row
+            .clear-invites.col-xs-10.col-xs-offset-1.col-sm-12.col-md-10.col-md-offset-1.col-lg-8.col-lg-offset-2
+              a.clear-invites(href='/cleardashboard/'+user.id) Clear all invitations
+          for message in user.messages
+            .row
+            a(href='/project/'+message.projectId)
+              p.col-xs-10.col-xs-offset-1.col-sm-12.col-md-10.col-md-offset-1.col-lg-8.col-lg-offset-2.apply-display You've been invited to join 
+                span.make-primary #{message.projectName}
+    
+  //Dashboard Profile
+  .row
+    .dashboard-profile.col-xs-10.col-xs-offset-1.col-sm-12.col-md-10.col-md-offset-1.col-lg-8.col-lg-offset-2
+      .profile-container.row
+
+        .col-xs-12.col-sm-4.profile-left
+          h1 #{user.profile.name}
+          h2 #{user.profile.title}
+          .profile-user
+            img.img-responsive(src=user.profile.picture)
+
+        .profile-right.col-xs-12.col-sm-8
+          h3 #{user.profile.major}
+          p(id='year') #{user.profile.year}
+          h3 About
+          p #{user.profile.description}
+          h3 Skills
+          p
+            for skill in user.profile.skills
+              | #{skill}
+              span.last-comma-1 ,
+          h3 Website
+          a(href=user.profile.website target='_blank') #{user.profile.website}
+
+  .row
+    .dashboard-buttons.col-xs-10.col-xs-offset-1.col-sm-12.col-md-10.col-md-offset-1.col-lg-8.col-lg-offset-2
+      a(href='/project/create')
+        .dashboard-button
+          i.fa.dashboard.fa-plus.fa-3x
+          span Create Project
+      a(href='/profile')
+        .dashboard-button
+          i.fa.dashboard.fa-cog.fa-3x
+
+          span Edit Profile
+
+  if myProjectsArray.length != 0
+    h2.dashboard My Projects
+    .row.projects-listing(id="my-projects-listing")
+      .card-grid
+        for project in myProjectsArray
+          a.card-box.col-xs-10.col-xs-offset-1.col-sm-4.col-md-3(href='/project/'+project._id)
+            .card-content
+              h2.match-height-name #{project.name}
+
+              h3.match-height-title ADMIN: #{project.adminName}
+              img.project-img.match-height-pic(src=project.image)
+

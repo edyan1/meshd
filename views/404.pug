@@ -1,0 +1,15 @@
+extends layout
+
+block extrascripts
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js")
+
+block extrastyles
+  link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css")
+
+block content
+  .page-header
+    img.error-logo(src='/img/404.svg')
+    h1.grey-txt Whoops! Something Didn't 
+      span.make-primary MESH
+      span(class='grey-txt') ...
+    a(id='report-link' target='_blank' href='https://docs.google.com/forms/d/e/1FAIpQLSdZkBWMg2FcfnZvUKsw9C20llBVmNsYTqJpC9yV8U22SX0ZXA/viewform') Report It

@@ -1,0 +1,55 @@
+extends ../layout
+
+block extrascripts
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js", integrity="sha256-tQ3x4V2JW+L0ew/P3v2xzL46XDjEWUExFkCDY0Rflqc=", crossorigin="anonymous")
+
+
+block extrastyles
+  link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css", integrity="sha256-uKEg9s9/RiqVVOIWQ8vq0IIqdJTdnxDMok9XhiqnApU=", crossorigin="anonymous")
+
+block content
+  .row
+    .col-xs-10.col-xs-offset-1.col-sm-12.col-md-10.col-md-offset-1.col-lg-8.col-lg-offset-2.profile-container
+
+      .profile-back
+        //Send to previous page
+        a(href='javascript:history.go(-1)')
+          i.fa.fa-arrow-left.fa-lg
+
+      .profile-content.row
+
+        .profile-left.col-xs-12.col-sm-4
+          h1 #{userProfile.profile.name}
+          h2 #{userProfile.profile.title}
+          .profile-user
+            img.img-responsive(src=userProfile.profile.picture)
+            a(href='mailto:'+userProfile.email)
+              i.fa.fa-envelope.fa-2x
+
+        .col-xs-12.col-sm-8.profile-right
+          h3 #{userProfile.profile.major}
+          p(id='year') #{userProfile.profile.year}
+          h3 About
+          p #{userProfile.profile.description}
+          h3 Skills
+          p
+            for skill in userProfile.profile.skills
+              | #{skill}
+              span.last-comma-1 ,
+          h3 Website
+          a(href=userProfile.profile.website target='_blank') #{userProfile.profile.website}
+
+          if ownProjects.length
+            - var x = 0
+            for project in ownProjects
+              if project.members.indexOf(userProfile.id) == -1
+                - x++
+            if x != 0
+              h3 Recruit this Mesher
+              form(action='/recruit/'+userProfile.id, method='POST')
+                input(type='hidden', name='_csrf', value=_csrf)
+                select.recruit(name='projectSelect', id='projectSelect')
+                  for project in ownProjects
+                    if project.members.indexOf(userProfile.id) == -1
+                      option(value = project.id) #{project.name}
+                button.recruit(type='submit', onclick='this.form.submit(); this.disabled=true;') Recruit

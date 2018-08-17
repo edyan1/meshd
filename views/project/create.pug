@@ -1,0 +1,52 @@
+extends ../layout
+
+block extrascripts
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js", integrity="sha256-tQ3x4V2JW+L0ew/P3v2xzL46XDjEWUExFkCDY0Rflqc=", crossorigin="anonymous")
+
+block extrastyles
+  link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css", integrity="sha256-uKEg9s9/RiqVVOIWQ8vq0IIqdJTdnxDMok9XhiqnApU=", crossorigin="anonymous")
+
+block content
+  .page-header
+    h1 Create Project
+
+  form.form-horizontal(action='/project/create', method='POST')
+    input(type='hidden', name='_csrf', value=_csrf)
+    .form-group
+      label.col-sm-3.control-label(for='name') Team/Project Name
+      .col-sm-7
+        input.form-control(type='text', required, maxlength="50", placeholder='50 character limit', name='name', id='name', value=(project ? project.name : ""))
+
+    .form-group
+      label.col-sm-3.control-label(for='description') Description
+      .col-sm-7
+        textarea.form-control(id='description', required, maxlength="255", placeholder='255 character Limit', name='description') #{project ? project.description : ""}
+
+    //.form-group
+      label.col-sm-3.control-label(for='needed') # of Members Recruiting
+      .col-sm-7
+        input.form-control.projects-form-num(type='number', required, name='needed', placeholder='#', id='needed', min='0', max='3', value=project ? project.recruiting.needed : "")
+
+    .form-group
+      label.col-sm-3.control-label(for='skills') Skills Needed
+        p Separate each skill with a comma or hit Enter.
+      .col-sm-7
+        input.form-control(type='text', name='skills', placeholder='(e.g.: c++, photoshop)', required, id='skills', data-role='tagsinput', value=project ? project.recruiting.skills.join() : "")
+
+    .form-group
+      label.col-sm-3.control-label(for='interests') Tags
+        p Separate each tag with a comma or hit Enter.
+      .col-sm-7
+        input.form-control(type='text', name='interests', placeholder='(e.g.: cats, music)', required, id='interests', data-role='tagsinput', value=project ? project.recruiting.interests.join() : "")
+
+    //.form-group
+      label.col-sm-3.control-label(for='image') Image
+        p (Optional)
+      .col-sm-7
+        input.form-control(type='file', name='image', id='image')
+
+    .form-group
+      .col-sm-offset-3.col-sm-4
+        button.btn.btn.btn-primary(type='submit', onclick='this.form.submit(); this.disabled = true;')
+          i.fa.fa-pencil
+          | Create Project

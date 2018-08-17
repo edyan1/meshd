@@ -1,0 +1,38 @@
+extends layout
+
+block extrastyles
+  link(rel='stylesheet', href='/css/splash.css')
+
+block main
+  .wrapper
+    #content
+      .top
+        img.img-responsive(src='img/logomedium.png')
+      .middle
+        h1 The fabric of collaboration
+      .bottom
+        .login-button
+          a(id="login-button" href='#', role='button') Let's get started
+
+      include partials/flash
+
+      include partials/footer
+
+    .modal(id="login-modal" style="display: none;")
+      .login-modal
+        .close(id="close") X
+        .login-modal-content
+          h1 Login
+          .login-buttons
+            a.btn.btn-fbook(href='/auth/facebook')
+              i.fa.fa-facebook
+              | Facebook
+            a.btn.btn-google(href='/auth/google')
+              i.fa.fa-google-plus
+              | Google
+            //a.btn.btn-github(href='/auth/github')
+              i.fa.fa-github
+              | GitHub
+
+block extrascripts
+  script(src='/js/login.js')

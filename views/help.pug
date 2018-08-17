@@ -1,0 +1,51 @@
+extends layout
+
+block extrascripts
+  script(src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous")
+  script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous")
+
+  script.
+    $( function() {
+      $( "#accordion" ).accordion({
+        heightStyle: "content",
+        collapsible: true,
+        active: false
+      });
+    } );
+
+block content
+  .page-header
+    h1 <span class="make-primary">MESHD</span> how to
+
+  .row
+    .col-lg-8.col-lg-offset-2.col-sm-10.col-sm-offset-1
+        div(id='accordion')
+          h3.help How do I edit my profile?
+          p.help Profile changes can be made on the Edit Profile page. This page can be accessed anytime through the dropdown menu at the top-right of the screen. Toggle the menu and select “Edit Profile.” The Edit Profile page can also be accessed through the User Dashboard by selecting the “Edit Profile” button underneath the user profile card. The dropdown menu also allows you to view the current state of your user profile by selecting “View Profile.”
+
+          h3.help How do I create a project?
+          p.help Creating a project is simple to do! The Create Project page can be accessed at anytime through the dropdown menu at the top-right of the screen. Toggle the menu and select “Create Project.” This page can also be accessed through the Projects page by selecting the “+ Create” button at the top of the page, as well as through the User Dashboard by selecting the “Create Project” button underneath the user profile card. Once on the Create Project page, simply fill out the form and click “Create Project.”
+
+          h3.help How do I edit/delete a project?
+          p.help The Edit Project page can be accessed via the “Admin Panel” button located on the Project Profile page underneath the project image. To get to the project profile, simply click on the project card found on either the User Dashboard or the Projects page. Admin’s have the ability to edit/change all fields of a project. To delete your project, select the “Delete Project” button at the bottom of the page. NOTE: Deleting a project is a permanent action that cannot be undone.
+
+          h3.help How do I search for users/projects?
+          p.help Searching for users and projects can be done easily through either the MESHERS or Projects pages. Both pages will display all users and projects, and can be searched based on name, title, skills and tags using the search bar at the top of the page. Projects that are greyed-out are currently not looking for additional users, but can still be viewed. To filter out all closed projects, select the check box underneath the search bar.
+
+          h3.help How do I join/leave a project?
+          p.help Joining a project can be done through the Project Profile page. To access this page, select the project you wish to join from the Projects page. The button to apply to join is located underneath the project image. If you are already a member of the project, the button will allow you to leave the project. If you are the admin of the project, the button will direct you to the Admin Panel where you can edit/manage the project.
+
+          h3.help How do I recruit a user for a project?
+          p.help Recruiting a user can be done though the user’s profile page. Select the project you would like the user to join through the dropdown menu located at the bottom-right of the profile card. After hitting “Recruit,” the user will be notified of your invitation to join your project.
+
+          h3.help How do I know if users have applied to my project?
+          p.help Applications to join a project you are the admin of will be displayed on the User Dashboard. To access the dashboard, select the MESHD icon at the top left of your screen. Once there, all of your applications will be displayed at the top of the page in a notifications panel. Clicking on the link will direct you to the admin panel where you can either approve or decline a user’s application.
+
+          h3.help How do I know if I have been recruited for a project?
+          p.help Invitations to join a project will be displayed on the User Dashboard. To access the dashboard, select the MESHD icon at the top left of your screen. Once there, all of your invitations will be displayed at the top of the page in a notifications panel. Clicking on the invite will direct you to the projects page where you can join the project. To dispose of your invites, select the “Clear all invitations” button located at the top of the notification panel.
+
+          h3.help How do I view my current projects?
+          p.help Viewing your current projects can be done on the User Dashboard. To access the dashboard, select the MESHD icon at the top left of your screen. Once there, all of your projects will be listed towards the bottom of the page.
+
+          h3.help How do I communicate with other users?
+          p.help Communication between users can be done in several ways. To communicate directly with a single user, go to their Profile page and select the envelope button underneath their profile picture. This will initiate an email exchange between you and that user. To communicate with an entire project, use the public message board located underneath the project card on the project’s profile page.

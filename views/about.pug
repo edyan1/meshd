@@ -1,0 +1,95 @@
+extends layout
+
+block extrascripts
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js")
+  script(src="../js/matchHeight.js")
+  
+  script.
+    $(function() {
+      $('.match-height-title').matchHeight();
+      $('.match-height-desc').matchHeight();
+      $('.match-height-name').matchHeight();
+    });
+
+block extrastyles
+  link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css")
+
+block content
+  .page-header
+    h1 About <span class="make-primary">MESHD</span>
+
+  .row
+    .col-lg-8.col-lg-offset-2.col-sm-10.col-sm-offset-1
+      p MESHD is a collaboration application that allows participants to find others to create teams for projects. Once logged in, users can create a profile and find others that may match a need for a project. Participants are prompted to share share skill based, professional, information and images in their profiles and in searching for others. Once collaborations have taken place, participants attest to other's skills and talents through positive testaments and badges. 
+        
+      p MESHD is an application that came out of Stony Brook University; built and designed between artists, designers, and programmers. Because the application was developed by a diverse group, the MESHD team knows well that great collaboration is often the foundation of amazing projects.
+      
+      p MESHD is not responsible for collaboration conflicts as teams or partnerships are formed, or after (or whether) work is completed.
+      
+      p Participants are strongly advised to follow the application recommendation of using the app for sharing skill-based/professional work and information only.
+
+  .page-header
+    h1 The <span class='make-primary'>MESHD</span> Team
+
+  .row
+    .col-xs-10.col-xs-offset-1.col-sm-6.col-lg-5.col-lg-offset-1
+      h2.match-height-name Melissa F. Clarke
+      h3.match-height-title Art Director/Co-Project Manager
+      .bio-pic
+        picture
+          source.img-responsive.img-circle(srcset='/img/melissa.webp', type='image/webp')
+          img.img-responsive.img-circle(src='/img/melissa.jpg')
+      p.match-height-desc Clarke is a Brooklyn based interdisciplinary artist whose work primarily employs data and generative self-programmed compositional environments. Melissa is an educator, curator, and an artist working at the intersections installations, generative video and sound sculptures, performances, web art and printed span images that have been shown internationally.
+
+    .col-xs-10.col-xs-offset-1.col-lg-5.col-sm-6
+      h2.match-height-name Laura Mun
+      h3.match-height-title Co-Project Manager/Front-End Developer
+      .bio-pic
+        picture
+          source.img-responsive.img-circle(srcset='/img/laura.webp', type='image/webp')
+          img.img-responsive.img-circle(src='/img/laura.jpg')
+      p.match-height-desc Laura graduated from Syracuse University with a dual degree in Supply Chain Management and Accounting. Having found her passion for technology, design, and programming, she is currently studying computer science and digital arts at Stony Brook University. She uses her knowledge to teach at the collegiate level as a teacher’s assistant as well to children as young as eight.
+
+    .col-xs-10.col-xs-offset-1.col-lg-5.col-lg-offset-1.col-sm-6
+      h2.match-height-name Kyle Brown
+      h3.match-height-title Front-End Developer/Design
+      .bio-pic
+        picture
+          source.img-responsive.img-circle(srcset='/img/kyle.webp', type='image/webp')
+          img.img-responsive.img-circle(src='/img/kyle.jpg')
+      p.match-height-desc Brown is a digital artist currently working towards his B.A. in Studio Art from Stony Brook University. He works primarily through photography and video, using aspects of both still and moving images to explore various concepts. His work explores the topic of art, what defines it, and how its limits can be pushed through the recontextualization of various mediums.
+
+    .col-xs-10.col-xs-offset-1.col-lg-5.col-sm-6
+      h2.match-height-name Sean Patrick
+      h3.match-height-title Marketing/Design
+      .bio-pic
+        picture
+          source.img-responsive.img-circle(srcset='/img/sean.webp', type='image/webp')
+          img.img-responsive.img-circle(src='/img/sean.jpg')
+      p.match-height-desc Sean is an Undergraduate Junior Multidisciplinary Studies Student at Stony Brook University. He Specializes in Computer Science and Digital Art with a focus on Graphic Design and Human Computer interaction. He has been involved in a variety of traditional Graphic Design as well as kinetic web design.
+
+    .col-xs-10.col-xs-offset-1.col-lg-5.col-lg-offset-1.col-sm-6
+      h2.match-height-name Jesse Talavera-Greenberg
+      h3.match-height-title Back-End Developer/Tech Strategy
+      .bio-pic
+        picture
+          source.img-responsive.img-circle(srcset='/img/jesse.webp', type='image/webp')
+          img.img-responsive.img-circle(src='/img/jesse.jpg')
+      p.match-height-desc Jesse is a graduate student of computer science at Stony Brook University who likes to think of himself as a jack-of-all-trades, but really he's not too sure if that's how things will turn out. He'll try anyway though. He's also pretty good at explaining things with clever analogies, quick on his feet like... a dancer or something I dunno. Gimme a minute...
+
+    .col-xs-10.col-xs-offset-1.col-lg-5.col-sm-6
+      h2.match-height-name Edwin Yan
+      h3.match-height-title Full-Stack Developer
+      .bio-pic
+        picture
+          source.img-responsive.img-circle(srcset='/img/edwin.webp', type='image/webp')
+          img.img-responsive.img-circle(src='/img/edwin.jpg')
+      p.match-height-desc Edwin is a Computer Science Major Senior with a specialization in Systems Software Development. He has experience in Java, C, Javascript, among other coding languages. He is also a veteran of the United States Navy.
+      
+  .page-header
+    h1 Credits
+
+  .row
+    .col-xs-10.col-xs-offset-1.col-sm-6.col-lg-5.col-lg-offset-1
+      p Emoji art provided by 
+        a(href='http://emojione.com/') EmojiOne

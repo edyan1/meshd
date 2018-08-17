@@ -1,0 +1,58 @@
+extends layout
+
+block extrascripts
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js")
+
+  script.
+    //jquery: on document ready, check if projects were loaded
+    //if there are no "proj-box" divs, then display text
+    $( document ).ready(function() {
+      projectSearch();
+      if ($(".card-box").length < 1) {
+        $("#projects-listing").text("Ain't no projects here, buddy.");
+      }
+
+    });
+
+block content
+  .page-header
+
+    h1.project-page Projects
+    .menu
+      .search-bar
+        .search-bar-top
+          input.projects-search-temp(id='projects-search', onchange='projectSearch()' placeholder='Search by name, tags, skills, etc...')
+          button.search-btn(onclick='projectSearch()') Go
+        .search-bar-bottom
+          label.open-projects Search open projects only
+            input.open-projects(id='open-check', type='checkbox', value='Search Open Projects Only' onchange='projectSearch()' checked)
+      .create-button
+        a(href='/project/create')
+          .create-project
+            i.fa.fa-plus.projects.fa-lg
+            p.create create
+
+
+  .row.projects-listing(id="projects-listing")
+    .card-grid
+      p(id='not-found')
+      for project in projectsArray
+        a.card-box.col-xs-10.col-xs-offset-1.col-sm-4.col-md-3(href='/project/'+project._id)
+          if project.open
+            .card-content
+              h2.project.match-height-name #{project.name}
+              h3.project.match-height-title ADMIN: #{project.adminName}
+              .card-image-project
+                img.img-responsive.match-height-pic(src=project.image)
+              p.project(hidden) #{project.recruiting.skills}
+              p.project(hidden) #{project.recruiting.interests}
+              p(hidden) #{project.open}
+          if !project.open
+            .nlcard-content
+              h2.project.match-height-name #{project.name}
+              h3.project.match-height-title ADMIN: #{project.adminName}
+              .card-image-project
+                img.img-responsive.match-height-pic(src=project.image)
+              p.project(hidden) #{project.recruiting.skills}
+              p.project(hidden) #{project.recruiting.interests}
+              p(hidden) #{project.open}

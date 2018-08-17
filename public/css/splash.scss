@@ -1,0 +1,179 @@
+@import "_variables";
+@import "lib/bootstrap/_variables";
+
+// Variables
+$height: 485px;
+$width: 300px;
+
+html,
+body,
+.wrapper {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  background-color: $primary-color;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  background: url('/img/bg.jpg') no-repeat bottom center scroll;
+  background-size: cover;
+  background-color: $primary-color;
+  background-blend-mode: multiply;
+  margin: 0px;
+  min-height: $height;
+  min-width: $width;
+}
+
+#content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.top {
+  display: flex;
+  min-height: 150px;
+  margin-top: 8vh;
+
+  @media (max-height: $height) {
+    margin-top: 38.88px;
+  }
+
+  img {
+    object-fit: contain;
+  }
+}
+
+.middle {
+  h1 {
+    color: white;
+    text-transform: uppercase;
+    font-size: 2.5em;
+    font-weight: 300;
+    margin-bottom: 20px;
+    padding: 0 20px;
+
+    @media (max-height: $height), (max-width: $screen-xs) {
+      font-size: 2em;
+    }
+  }
+}
+
+.bottom {
+  margin-top: 5vh;
+  margin-bottom: 12vh;
+
+  @media (max-height: $height) {
+    margin-top: 24px;
+    margin-bottom: 58px;
+  }
+
+  .login-button {
+    border: white 0.15em solid;
+    text-align: center;
+
+    a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 3vh;
+      display: block;
+      padding: 3vh 10vh;
+
+      @media (max-width: $screen-xs) {
+        padding: 3vh 5vh;
+      }
+
+      @media (max-height: $height) {
+        font-size: 14.58px;
+        padding: 14.58px 24.3px;
+      }
+
+      &:hover{
+        background-color: white;
+        color: $primary-color;
+      }
+    }
+  }
+}
+
+#login-modal {
+  .login-modal {
+    background-color: white;
+    height: 80vh;
+    width: 80vw;
+    padding: 3vh;
+    margin: auto;
+    overflow-y: auto;
+
+    .login-modal-content {
+      clear: both;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      h1 {
+        color: $primary-color;
+        font-weight: 300;
+        margin-bottom: 1em;
+      }
+
+      .login-buttons {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  }
+}
+
+// Override
+h1 {
+  font-weight: 300;
+}
+
+.btn {
+  width: 42vw;
+  margin-bottom: 1.2em;
+
+  @media (max-width: $screen-xs) {
+    width: 175px;
+  }  
+
+  @media (min-width: $screen-md) {
+    width: 400px;
+  }
+}
+
+footer {
+  @media (max-height: 1000px) {
+    position: relative;    
+  }
+
+  * {
+    color: #fff;
+
+    a {
+      color: #fff;
+
+      &:hover {
+        color: $primary-grey;
+      }
+
+      &:active {
+        color: #fff;
+      }
+      
+      &:focus {
+        color: #fff;
+      }
+      
+      &:disabled {
+        color: #fff;
+      }
+    }
+  }
+}

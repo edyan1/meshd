@@ -1,0 +1,95 @@
+extends ../layout
+
+block extrascripts
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js", integrity="sha256-tQ3x4V2JW+L0ew/P3v2xzL46XDjEWUExFkCDY0Rflqc=", crossorigin="anonymous")
+
+  script.
+    function confirmLeave(){
+      var ask=confirm("Are you sure you want to leave this project?");
+      if(ask){
+        window.location='/projectleave/#{project._id}';
+      }
+    }
+  
+  script.
+    function displayText() {
+      document.getElementById('project-closed').style.opacity = '1';
+    }
+
+block extrastyles
+  link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css", integrity="sha256-uKEg9s9/RiqVVOIWQ8vq0IIqdJTdnxDMok9XhiqnApU=", crossorigin="anonymous")
+
+block content
+  .row
+    .profile-container.col-xs-10.col-xs-offset-1.col-sm-12.col-md-10.col-md-offset-1.col-lg-8.col-lg-offset-2
+
+      .profile-back
+        //Send to previous page
+        a(href='/projects')
+          i.fa.fa-arrow-left.fa-lg
+
+      .profile-content.row
+
+        .profile-left.col-xs-12.col-sm-4
+          h1 #{project.name}
+          .profile-user
+            img.img-responsive(src=project.image)
+
+            if project.admin == userId
+              //EDIT BUTTON- NEEDS to only display for ADMIN
+              a.member-status(href='/projectedit/'+project._id, id='editButton')
+                button.member-status Admin Panel
+            else if project.members.indexOf(userId) != -1  || project.applying.indexOf(userId) != -1
+              a.member-status(href='#', onclick="confirmLeave()")
+                //leave project
+                button.member-status Leave
+            else if project.open
+              a.member-status(href='/projectapply/'+project._id)
+                //apply to join project
+                button.member-status Join
+            else
+              button(onclick='displayText()').member-status-disabled Join
+              p(id='project-closed') Project Closed
+
+        .profile-right.col-xs-12.col-sm-8
+          h3 About
+          p #{project.description}
+          h3 Skills needed
+          p
+            for skill in project.recruiting.skills
+              | #{skill}
+              span.last-comma-1 , 
+          h3 Tags
+          p
+            for interest in project.recruiting.interests
+              | #{interest}
+              span.last-comma-2 , 
+          .member-container
+            .admin
+              h3.profile Admin
+              a(href='/viewprofile/'+admin._id)
+                img.members(src=admin.profile.picture)
+            .members
+              h3.profile Members
+              .member-imgs
+                for member in members
+                  a(href='/viewprofile/'+member._id)
+                    img.members(src=member.profile.picture)
+
+          .applying-users(id='applying-users')
+
+  .row
+    .project-bulletin.col-lg-8.col-lg-offset-2
+      .project-bulletin-container
+        h3.project-chat Public Meshage Board
+        for msg in project.publicChat
+          p.project-chat-name #{msg.userName}
+          p.project-chat-time #{msg.time}
+          p.project-chat-message #{msg.message}
+
+      form.form-horizontal(action='/project/postmsg', method='POST')
+        input(type='hidden', name='_csrf', value=_csrf)
+        input(type='hidden', name='pid', value=project._id)
+        input.project-chat(type='text', name='text', placeholder='Type Meshage...', autocomplete='off')
+        button.project-chat(type='submit', onclick='this.form.submit(); this.disabled = true;')
+         | Send

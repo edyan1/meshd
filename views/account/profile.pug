@@ -1,0 +1,189 @@
+extends ../layout
+
+block extrascripts
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js", integrity="sha256-tQ3x4V2JW+L0ew/P3v2xzL46XDjEWUExFkCDY0Rflqc=", crossorigin="anonymous")
+
+block extrastyles
+  link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css", integrity="sha256-uKEg9s9/RiqVVOIWQ8vq0IIqdJTdnxDMok9XhiqnApU=", crossorigin="anonymous")
+
+block content
+  //.page-header
+    picture#homelogo.logored
+      source(srcset='/img/logored.webp', type='image/webp')
+      img(src='/img/logored.png')
+    h1(id='congrats') You have successfully registered for
+      span.make-primary  MESHD
+    p(id='tempTop') Check your emails. Go-live dates, guidance of use, and more will be sent in an email to all hackers prior to the
+        a(id='contactLink' href='http://www.cewit.org/hack/' target='_blank')  Hack@CEWIT
+        span  kickoff.
+    p.tempText Questions?
+      a(id='contactLink' href='mailto:ars_teammeshd@stonybrook.edu')  Contact us.
+
+  .page-header
+    h1 Edit Profile
+
+  .div()
+    form.form-horizontal(action='/profile/update', method='POST')
+      input(type='hidden', name='_csrf', value=_csrf)
+      .form-group
+        label.col-sm-3.control-label(for='name') Name
+        .col-sm-7
+          input.form-control(type='text', name='name', id='name', autocomplete='name', value=user.profile.name, maxlength='50')
+      .form-group
+        label.col-sm-3.control-label(for='email') Email
+        .col-sm-7
+          input.form-control(type='email', name='email', id='email', autocomplete='email', value=user.email readonly)
+
+      //-  GENDER AND LOCATION REMOVED FOR NOW, OPTION TO REINCLUDE IF DESIRED
+        .form-group
+          label.col-sm-3.control-label Gender
+          .col-sm-6
+            label.radio.col-sm-3
+              input(type='radio', checked=user.profile.gender=='male', name='gender', value='male', data-toggle='radio')
+              span Male
+            label.radio.col-sm-3
+              input(type='radio', checked=user.profile.gender=='female', name='gender', value='female', data-toggle='radio')
+              span Female
+            label.radio.col-sm-3
+              input(type='radio', checked=user.profile.gender=='other', name='gender', value='other', data-toggle='radio')
+              span Other
+        .form-group
+          label.col-sm-3.control-label(for='location') Location
+          .col-sm-7
+            input.form-control(type='text', name='location', id='location', value=user.profile.location)
+
+      //.form-group
+        label.col-sm-3.control-label Roles
+        .col-sm-6
+          label.radio.col-sm-3
+            input(type="checkbox", checked=user.profile.roles.includes('Coder'), name="roles", value="Coder")
+            span  Coder
+
+          label.radio.col-sm-3
+            input(type="checkbox", checked=user.profile.roles.includes('Designer'), name="roles", value="Designer")
+            span  Designer
+
+          label.radio.col-sm-3
+            input(type="checkbox", checked=user.profile.roles.includes('Scientist'), name="roles", value="Scientist")
+            span  Scientist
+
+          label.radio.col-sm-3
+            input(type="checkbox", checked=user.profile.roles.includes('Other'), name="roles", value="Other")
+            span  Other
+
+
+      .form-group
+        label.col-sm-3.control-label(for='year') Year
+        .col-sm-7
+          select.form-control(name='year')
+            option(value='Freshman', selected=user.profile.year=='Freshman') Freshman
+            option(value='Sophomore', selected=user.profile.year=='Sophomore') Sophomore
+            option(value='Junior', selected=user.profile.year=='Junior') Junior
+            option(value='Senior', selected=user.profile.year=='Senior') Senior
+            option(value="Master's", selected=user.profile.year=="Master's") Master's
+            option(value='Doctorate', selected=user.profile.year=='Doctorate') Doctorate
+            option(value='Other', selected=user.profile.year=='Other') Other
+            option(value='Not Specified', selected=user.profile.year=='Not Specified') Not Specified
+      .form-group
+        label.col-sm-3.control-label(for='major') Major
+        .col-sm-7
+          input.form-control(type='text', name='major', id='major', value=user.profile.major, maxlength='50', placeholder='(e.g.: Computer Science, Studio Art, Biomedical Engineering)')
+      //- Removing degree because it is redundant with year
+        .form-group
+          label.col-sm-3.control-label(for='degree') Degree
+          .col-sm-7
+            input.form-control(type='text', name='degree', id='degree', value=user.profile.degree, maxlength='50')
+      .form-group
+        label.col-sm-3.control-label(for='title') Title
+        .col-sm-7
+          input.form-control(type='text', name='title', id='title', value=user.profile.title, maxlength='50', placeholder='(e.g.: Artist, Developer)')
+      .form-group
+        label.col-sm-3.control-label(for='website') Website
+        .col-sm-7
+          input.form-control(type='url', name='website', id='website', autocomplete='url', value=(user.profile.website ? user.profile.website : "http://"))
+      .form-group
+        label.col-sm-3.control-label(for='skills') Skills
+          p Separate each skill with a comma or hit Enter.
+        .col-sm-7
+          input.form-control(type='text', name='skills', id='skills', data-role='tagsinput' value=user.profile.skills.join())
+      .form-group
+        label.col-sm-3.control-label(for='description') About
+        .col-sm-7
+          textarea.form-control(rows=4, name='description', id='description', value=user.profile.description, maxlength='1255', placeholder='A cool cat looking for a clowder.') #{user.profile.description}
+      //- Unsure of how to use Gravatar
+        .form-group
+          label.col-sm-3.control-label Gravatar
+          .col-sm-4
+            img(src=user.gravatar(), class='profile', width='100', height='100')
+      .form-group
+        label.col-sm-3.control-label(for='looking') Looking for projects?
+        .col-sm-7
+          //input.form-control.projects-form-num(type='number', required, name='needed', id='needed', min='0', max='3', value=project ? project.recruiting.needed : "")
+          if user.looking
+            label.project-status(for='looking') Yes
+              input.project-status(type='radio', required, name='looking', id='looking', value= "yes", checked)
+            label.project-status(for='looking') No
+              input.project-status(type='radio', required, name='looking', id='looking', value= "no")
+
+          if !user.looking
+            label.project-status(for='looking') Yes
+              input.project-status(type='radio', required, name='looking', id='looking', value= "yes")
+            label.project-status(for='looking') No
+              input.project-status(type='radio', required, name='looking', id='looking', value= "no", checked)
+
+      .form-group
+        .col-sm-offset-3.col-sm-4
+          button.btn.btn-primary(type='submit')
+            i.fa.fa-pencil
+            | Update Profile
+
+    //.page-header
+      h3 Change Password
+
+    //form.form-horizontal(action='/account/password', method='POST')
+      input(type='hidden', name='_csrf', value=_csrf)
+      .form-group
+        label.col-sm-3.control-label(for='password') New Password
+        .col-sm-7
+          input.form-control(type='password', autocomplete='new-password', name='password', id='password')
+      .form-group
+        label.col-sm-3.control-label(for='confirmPassword') Confirm Password
+        .col-sm-7
+          input.form-control(type='password', autocomplete='new-password', name='confirmPassword', id='confirmPassword')
+      .form-group
+        .col-sm-offset-3.col-sm-4
+          button.btn.btn-primary(type='submit')
+            i.fa.fa-lock
+            | Change Password
+
+    //.page-header
+      h3 Delete Account
+
+    //form.form-horizontal(action='/account/delete', method='POST')
+      .form-group
+        p.col-sm-offset-3.col-sm-4 You can delete your account, but keep in mind this action is irreversible.
+        input(type='hidden', name='_csrf', value=_csrf)
+        .col-sm-offset-3.col-sm-4
+          button.btn.btn-danger(type='submit')
+            i.fa.fa-trash
+            | Delete my account
+
+    //.page-header
+      h3 Linked Accounts
+    //.form-horizontal
+      .form-group
+        .col-sm-offset-3.col-sm-4
+          if user.google
+            p: a.text-danger(href='/account/unlink/google') Unlink your Google account
+          else
+            p: a(href='/auth/google') Link your Google account
+        .col-sm-offset-3.col-sm-4
+          if user.facebook
+            p: a.text-danger(href='/account/unlink/facebook') Unlink your Facebook account
+          else
+            p: a(href='/auth/facebook') Link your Facebook account
+        .col-sm-offset-3.col-sm-4
+          if user.github
+            p: a.text-danger(href='/account/unlink/github') Unlink your GitHub account
+          else
+            p: a(href='/auth/github') Link your GitHub account

@@ -1,0 +1,50 @@
+extends layout
+
+block extrascripts
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js")
+    
+  script.
+    $(document).ready(function() {
+      userSearch();
+    });
+
+
+block content
+  .page-header
+    h1 Meshers
+    .menu
+      .search-bar
+        .search-bar-top
+          input.projects-search-temp(id='users-search', onchange='userSearch()' placeholder='Search by name, title, skills, etc...')
+          button.search-btn(onclick='usersSearch()') Go
+        .search-bar-bottom
+          label.open-projects Search available MESHERS only
+            input.open-projects(id='look-check', type='checkbox', value='Search Open Users Only' onchange='userSearch()' checked)
+
+  .row.users-listing(id='users-listing')
+    .card-grid
+      p(id='not-found')
+      for user in users
+        a.card-box.col-xs-10.col-xs-offset-1.col-sm-4.col-md-3(href='/viewprofile/'+user._id)
+          if user.looking
+            .card-content
+              h2.user.match-height-name #{user.profile.name}
+              if user.profile.title
+                h3.user.match-height-title #{user.profile.title}
+              else 
+                h3.user.match-height-title <br> 
+              .card-image-profile
+                img.img-responsive.match-height-pic(src=user.profile.picture)
+              p.user(hidden) #{user.profile.skills}
+              p(hidden) #{user.looking}
+          if !user.looking
+            .nlcard-content
+              h2.user.match-height-name #{user.profile.name}
+              if user.profile.title
+                h3.user.match-height-title #{user.profile.title}
+              else 
+                h3.user.match-height-title <br> 
+              .card-image-profile
+                img.img-responsive.match-height-pic(src=user.profile.picture)
+              p.user(hidden) #{user.profile.skills}
+              p(hidden) #{user.looking}
